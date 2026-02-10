@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pentru Ana ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Arial',sans-serif;
+  background:radial-gradient(circle at top,#7b1fa2,#05000a);
+  color:white;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* STELE */
+.star{
+  position:fixed;
+  width:2px;
+  height:2px;
+  background:white;
+  opacity:.6;
+  animation:twinkle 4s infinite;
+  pointer-events:none;
+}
+@keyframes twinkle{
+  50%{opacity:.2}
+}
+
+/* ECRANE */
+.screen{
+  position:absolute;
+  width:90%;
+  max-width:360px;
+  opacity:0;
+  transform:translateY(25px);
+  transition:all .8s ease;
+  pointer-events:none;
+}
+.screen.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+/* CARD */
+.box{
+  background:rgba(255,255,255,.12);
+  padding:30px;
+  border-radius:22px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,0,200,.35);
+  backdrop-filter:blur(10px);
+}
+
+/* BUTOANE */
+button{
+  margin-top:20px;
+  padding:14px;
+  width:100%;
+  font-size:16px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(135deg,#ff0066,#ff4da6);
+  color:white;
+  cursor:pointer;
+}
+.btn-no{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.4);
+}
+
+/* DATA */
+.date-box{
+  margin-top:15px;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.4);
+}
+
+/* INIMI */
+.heart{
+  position:fixed;
+  top:-10%;
+  font-size:18px;
+  animation:fall linear infinite;
+  pointer-events:none;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);}
+}
+
+/* FINAL */
+.big-heart{
+  font-size:90px;
+  animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+  50%{transform:scale(1.2);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="s1">
+  <div class="box">
+    <h1>💗 Pentru tine</h1>
+    <p id="countdown"></p>
+    <button onclick="show('s2')">Deschide inima mea</button>
+  </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="s2">
+  <div class="box">
+    <h2>💌</h2>
+    <p id="letter" style="line-height:1.7;"></p>
+    <strong>Cristi</strong>
+    <button onclick="show('s3')">Continuă</button>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="s3">
+  <div class="box">
+    <h2>Ana, vrei să fii partenera mea? 💖</h2>
+    <div class="date-box">
+      📅 14 februarie<br>
+      <span id="finalCountdown"></span>
+    </div>
+    <button onclick="yes()">DA 💕</button>
+    <button class="btn-no" id="noBtn">Nu</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="yes">
+  <div class="box">
+    <div class="big-heart">❤️</div>
+    <p style="line-height:1.7;">
+      Mulțumesc că ai spus DA.<br><br>
+      Din momentul acesta, te aleg.
+      În fiecare zi. Fără jumătăți de măsură.<br><br>
+      E începutul nostru. 💫
+    </p>
+    <h2>Te iubesc, Ana</h2>
+  </div>
+</div>
+
+<script>
+/* SCHIMBARE ECRANE */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* COUNTDOWN */
+const target=new Date("February 14, 2026 00:00:00").getTime();
+setInterval(()=>{
+  const d=target-Date.now();
+  const days=Math.floor(d/86400000);
+  const h=Math.floor((d%86400000)/3600000);
+  const m=Math.floor((d%3600000)/60000);
+  const s=Math.floor((d%60000)/1000);
+  countdown.innerText=`${days} zile ${h}h ${m}m ${s}s ❤️`;
+  finalCountdown.innerText=`${days} zile ${h}h ${m}m ${s}s`;
+},1000);
+
+/* BUTON NU FUPE */
+noBtn.addEventListener("mouseover",()=>{
+  noBtn.style.transform=
+    `translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
+});
+
+/* TEXT SCRIS */
+const text=`Ana,
+
+De când ai apărut în viața mea,
+lucrurile au început să aibă altă culoare.
+E liniște. E emoție. E ceva real.
+
+Ai devenit importantă pentru mine
+fără să îți dai seama.
+Și simțeam că trebuie să știi asta. ❤️`;
+
+let i=0;
+function typeText(){
+  if(i<text.length){
+    letter.innerHTML+=text[i]=="\n"?"<br>":text[i];
+    i++;
+    setTimeout(typeText,35);
+  }
+}
+setTimeout(typeText,800);
+
+/* DA */
+function yes(){
+  if(navigator.vibrate) navigator.vibrate(200);
+  show('yes');
+  for(let i=0;i<100;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=Math.random()*2+2+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),4000);
+  }
+}
+
+/* STELE */
+for(let i=0;i<80;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  s.style.top=Math.random()*100+"vh";
+  s.style.animationDelay=Math.random()*4+"s";
+  document.body.appendChild(s);
+}
+
+/* INIMI FUNDAL */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=Math.random()*3+3+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},500);
+</script>
+
+</body>
+</html>
